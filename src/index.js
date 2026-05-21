@@ -39,18 +39,6 @@ class Pizza {
             this.toppings.push(topping);
         }
     }
-    getToppings() {
-        return this.toppings;
-    }
-
-    getSize() {
-        return this.type;
-    }
-
-    getStuffing() {
-        return this.size;
-    }
-
     _getToppingProperty(topping, property) {
         const toppingInfo = Pizza.TOPPINGS[topping];
         return typeof toppingInfo[property] !== 'undefined'
@@ -73,38 +61,49 @@ class Pizza {
     }
 }
 
-const calculatePizza = () => {
-    try {
-        const selectedType = document.getElementById('pizza-type').value;
-        const selectedSize = document.getElementById('pizza-size').value;
+let currentType = 'Пепперони';
+let currentSize = 'маленькая';
+let currentToppings = new Set();
 
-        const userPizza = new Pizza(selectedType, selectedSize);
+function updateCartButton() {
+    const pizza = new Pizza(currentType, currentSize);
+    currentToppings.forEach(topping => pizza.addTopping(topping));
+    document.getElementById('total-price').textContent = pizza.calculatePrice();
+    document.getElementById('total-calories').textContent = pizza.calculateCalories();
+}
 
-        const checkboxes = document.querySelectorAll('.topping-checkbox:checked');
-        checkboxes.forEach(cb => {
-            userPizza.addTopping(cb.value);
-        });
+document.querySelectorAll('.pizza-card').forEach(card => {
+    card.addEventListener('click', () => {
+        document.querySelectorAll('.pizza-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        currentType = card.dataset.type;
+        updateCartButton();
+    });
+});
 
-        const resultText = `
-Вы соберете: ${userPizza.getSize()} пиццу
-Размер: ${userPizza.getStuffing()}
-Добавки: ${userPizza.getToppings().length > 0 ? userPizza.getToppings().join(', ') : 'без добавок'}
----------------------------------------
-Итоговая стоимость: ${userPizza.calculatePrice()} руб.
-Полная калорийность: ${userPizza.calculateCalories()} Ккал.
-        `;
+document.querySelectorAll('.size-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.size-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
 
-        const displayElement = document.getElementById('pizza-info');
-        displayElement.style.color = '#333';
-        displayElement.textContent = resultText.trim();
+        currentSize = tab.dataset.size;
+        updateCartButton();
+    });
+});
 
-    } catch (error) {
-        const displayElement = document.getElementById('pizza-info');
-        displayElement.style.color = 'red';
-        displayElement.textContent = `Ошибка при сборке: ${error.message}`;
-    }
-};
+document.querySelectorAll('.topping-card').forEach(card => {
+    card.addEventListener('click', () => {
+        const toppingName = card.dataset.topping;
+        if (currentToppings.has(toppingName)) {
+            currentToppings.delete(toppingName);
+            card.classList.remove('active');
+        } else {
+            currentToppings.add(toppingName);
+            card.classList.add('active');
+        }
 
-document.getElementById('btn-calculate').addEventListener('click', calculatePizza);
+        updateCartButton();
+    });
+});
 
-calculatePizza();
+updateCartButton();
