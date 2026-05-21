@@ -1,47 +1,19 @@
-<?php
-$pageTitle = "Практика 16";
-$pageHeading = "16 Практика";
-$currentYear = date("Y");
-function getTimeWithWords() {
-    $hours = (int)date('G');
-    $minutes = (int)date('i');
-    if ($hours % 10 == 1 && $hours % 100 != 11) {
-        $hoursWord = "час";
-    } elseif (in_array($hours % 10, [2, 3, 4]) && !in_array($hours % 100, [12, 13, 14])) {
-        $hoursWord = "часа";
-    } else {
-        $hoursWord = "часов";
-    }
-    if ($minutes % 10 == 1 && $minutes % 100 != 11) {
-        $minutesWord = "минута";
-    } elseif (in_array($minutes % 10, [2, 3, 4]) && !in_array($minutes % 100, [12, 13, 14])) {
-        $minutesWord = "минуты";
-    } else {
-        $minutesWord = "минут";
-    }
-    return "$hours $hoursWord $minutes $minutesWord";
-}
-
-?>
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo $pageTitle; ?></title>
+    <title>Практика 17</title>
     <link rel="stylesheet" href="src/styles/styles.css">
 </head>
 <body>
-
-<header>
-    <h1><?php echo $pageHeading; ?></h1>
-</header>
-
-<main>
-    <p>Страничка охраняется Кошачьей армией!</p>
-
-</main>
-
+<h1>Практика 17 :з</h1>
+<ul>
+    <li><a href="task1.php">Задание 1</a></li>
+    <li><a href="task2.php">Задание 2</a></li>
+    <li><a href="task3.php">Задание 3</a></li>
+    <li><a href="task4.php">Задание 4</a></li>
+    <li><a href="task5.php">Задание 5</a></li>
+    <li><a href="task6.php">Задание 6</a></li>
+</ul>
 </body>
 </html>
