@@ -1,0 +1,12 @@
+body {
+    background-color: #e8f7f5;
+    color: #2d4a43;
+}
+
+header {
+    background-color: #a3e2d1;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(45, 74, 67, 0.08);
+    border-bottom: 3px solid #76c8b1;
+}
