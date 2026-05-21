@@ -1,14 +1,19 @@
 <?php
-$a = 8;
-$b = -4;
-
-if ($a >= 0 && $b >= 0) {
-    $result = "Оба положительные (разность):". ($a - $b);
-} elseif ($a < 0 && $b < 0) {
-    $result = "Оба отрицательные. Произведение: " . ($a * $b);
-} else {
-    $result = "Разные знаки. Сумма: " . ($a + $b);
+function printNumbers(): void
+{
+    $i = 0;
+    do {
+        if ($i === 0) {
+            echo "$i – это ноль.<br>";
+        } elseif ($i % 2 === 0) {
+            echo "$i – чётное число.<br>";
+        } else {
+            echo "$i – нечётное число.<br>";
+        }
+        $i++;
+    } while ($i <= 10);
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -19,9 +24,8 @@ if ($a >= 0 && $b >= 0) {
     <link rel="stylesheet" href="src/styles/styles.css">
 </head>
 <body>
-<h1>Task 1</h1>
-<p><strong>a = <?= $a ?>, b = <?= $b ?></strong></p>
-<p><?= $result ?></p>
-<a href="index.php">На главную</a>
+    <h1>Task 1</h1>
+    <p><?php printNumbers() ?></p>
+    <a href="index.php">На главную</a>
 </body>
 </html>

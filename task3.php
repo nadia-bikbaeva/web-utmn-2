@@ -1,24 +1,15 @@
 <?php
-$arg1 = rand(0, 100);
-$arg2 = rand(0, 100);
-function add($arg1, $arg2) {
-    return $arg1 + $arg2;
+function transliterate($text) {
+    $alphabet = [
+        'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g', 'д' => 'd', 'е' => 'e',
+        'ё' => 'yo', 'ж' => 'zh', 'з' => 'z', 'и' => 'i', 'й' => 'y', 'к' => 'k',
+        'л' => 'l', 'м' => 'm', 'н' => 'n', 'о' => 'o', 'п' => 'p', 'р' => 'r',
+        'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f', 'х' => 'kh', 'ц' => 'ts',
+        'ч' => 'ch', 'ш' => 'sh', 'щ' => 'shch', 'ъ' => '', 'ы' => 'y', 'ь' => '',
+        'э' => 'e', 'ю' => 'yu', 'я' => 'ya'];
+    return strtr($text, $alphabet);
 }
-
-function subtract($arg1, $arg2) {
-    return $arg1 - $arg2;
-}
-
-function multiply($arg1, $arg2) {
-    return $arg1 * $arg2;
-}
-
-function divide($arg1, $arg2) {
-    if ($arg2 == 0) {
-        return "Ошибка: деление на ноль!";
-    }
-    return $arg1 / $arg2;
-}
+$string = "привет, мир!";
 ?>
 
 <!DOCTYPE html>
@@ -30,10 +21,8 @@ function divide($arg1, $arg2) {
 </head>
 <body>
 <h1>Task 3</h1>
-<p><?=$arg1 ?> + <?=$arg2 ?> = <?= add($arg1, $arg2) ?></p>
-<p><?=$arg1 ?> - <?=$arg2 ?> = <?= subtract($arg1, $arg2) ?></p>
-<p><?=$arg1 ?> * <?=$arg2 ?> = <?= multiply($arg1, $arg2) ?></p>
-<p><?=$arg1 ?> / <?=$arg2 ?> = <?= divide($arg1, $arg2) ?></p>
+<p>Исходная строка: <?= $string ?></p>
+<p>Транслитерация: <?= transliterate($string) ?></p>
 <a href="index.php">На главную</a>
 </body>
 </html>

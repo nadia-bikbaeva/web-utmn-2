@@ -1,3 +1,28 @@
+<?php
+$menuItems = [
+        ['title' => 'Задание 1', 'link' => 'task1.php'],
+        ['title' => 'Задание 2', 'link' => 'task2.php'],
+        ['title' => 'Задание 3', 'link' => 'task3.php'],
+        ['title' => 'Задание 6', 'link' => 'task6.php']
+];
+
+function renderMenu($items, $isSub = false)
+{
+    $html = $isSub ? '<ul class="submenu">' : '<ul class="main-menu">';
+    foreach ($items as $item) {
+        $html .= '<li>';
+        $html .= '<a href="' . htmlspecialchars($item['link']) . '">' . htmlspecialchars($item['title']) . '</a>';
+        if (isset($item['sub']) && is_array($item['sub'])) {
+            $html .= renderMenu($item['sub'], true);
+        }
+        $html .= '</li>';
+    }
+    $html .= '</ul>';
+    return $html;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -6,14 +31,7 @@
     <link rel="stylesheet" href="src/styles/styles.css">
 </head>
 <body>
-<h1>Практика 17 >:)</h1>
-<ul>
-    <li><a href="task1.php">Задание 1</a></li>
-    <li><a href="task2.php">Задание 2</a></li>
-    <li><a href="task3.php">Задание 3</a></li>
-    <li><a href="task4.php">Задание 4</a></li>
-    <li><a href="task5.php">Задание 5</a></li>
-    <li><a href="task6.php">Задание 6</a></li>
-</ul>
+<h1>Практика 18 (´• ω •`) </h1>
+<?= renderMenu($menuItems); ?>
 </body>
 </html>
