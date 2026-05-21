@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Конструктор Пиццы</title>
+    <link rel="stylesheet" href="/assets/styles/style.css">
 </head>
 <body>
-$END$
+
+<h1>Пицца!</h1>
+
+<div class="form-group">
+    <label for="pizza-type">Выберите вид пиццы:</label>
+    <select id="pizza-type">
+        <option value="Маргарита">Маргарита (500 руб.)</option>
+        <option value="Пепперони">Пепперони (800 руб.)</option>
+        <option value="Баварская">Баварская (700 руб.)</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="pizza-size">Выберите размер:</label>
+    <select id="pizza-size">
+        <option value="маленькая">Маленькая (+100 руб.)</option>
+        <option value="большая">Большая (+200 руб.)</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label>Дополнительные добавки:</label>
+    <div class="checkbox-group">
+        <label class="checkbox-item">
+            <input type="checkbox" class="topping-checkbox" value="сливочная моцарелла">
+            Сливочная моцарелла (+50 руб.)
+        </label>
+        <label class="checkbox-item">
+            <input type="checkbox" class="topping-checkbox" value="сырный борт">
+            Сырный борт (150/300 руб.)
+        </label>
+        <label class="checkbox-item">
+            <input type="checkbox" class="topping-checkbox" value="чеддер и пармезан">
+            Чеддер и пармезан (150/300 руб.)
+        </label>
+    </div>
+</div>
+
+<button id="btn-calculate">Собрать и рассчитать ➔</button>
+
+<pre id="pizza-info">Выберите параметры и нажмите «Рассчитать»</pre>
+
+<script type="module" src="/index.js"></script>
 </body>
 </html>
