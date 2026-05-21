@@ -1,109 +1,63 @@
-class Pizza {
-    static TYPES = {
-        'Маргарита': { price: 500, calories: 300 },
-        'Пепперони': { price: 800, calories: 400 },
-        'Баварская': { price: 700, calories: 450 }
-    };
+const postsContainer = document.getElementById('posts');
+const paginationContainer = document.getElementById('pagination');
 
-    static SIZES = {
-        'маленькая': { price: 100, calories: 100 },
-        'большая': { price: 200, calories: 200 }
-    };
+const POSTS_PER_PAGE = 10;
+let currentPage = 1;
+let posts = [];
 
-    static TOPPINGS = {
-        'сливочная моцарелла': { price: 50, calories: 20 },
-        'сырный борт': {
-            'маленькая': { price: 150, calories: 50 },
-            'большая': { price: 300, calories: 50 }
-        },
-        'чеддер и пармезан': {
-            'маленькая': { price: 150, calories: 50 },
-            'большая': { price: 300, calories: 50 }
+//Все посты
+async function fetchPosts() {
+    try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+        if (!response.ok) {
+            throw new Error('Ошибка при получении постов');
         }
-    };
-
-    constructor(type, size) {
-        if (!Pizza.TYPES[type]) throw new Error(`Неизвестный вид пиццы: ${type}`);
-        if (!Pizza.SIZES[size]) throw new Error(`Неизвестный размер пиццы: ${size}`);
-
-        this.type = type;
-        this.size = size;
-        this.toppings = [];
-    }
-
-    addTopping(topping) {
-        if (!Pizza.TOPPINGS[topping]) {
-            throw new Error(`Неверная добавка: ${topping}`);
-        }
-        if (!this.toppings.includes(topping)) {
-            this.toppings.push(topping);
-        }
-    }
-    _getToppingProperty(topping, property) {
-        const toppingInfo = Pizza.TOPPINGS[topping];
-        return typeof toppingInfo[property] !== 'undefined'
-            ? toppingInfo[property]
-            : toppingInfo[this.size][property];
-    }
-
-    calculatePrice() {
-        const basePrice = Pizza.TYPES[this.type].price + Pizza.SIZES[this.size].price;
-        return this.toppings.reduce((total, topping) => {
-            return total + this._getToppingProperty(topping, 'price');
-        }, basePrice);
-    }
-
-    calculateCalories() {
-        const baseCalories = Pizza.TYPES[this.type].calories + Pizza.SIZES[this.size].calories;
-        return this.toppings.reduce((total, topping) => {
-            return total + this._getToppingProperty(topping, 'calories');
-        }, baseCalories);
+        posts = await response.json();
+        renderPosts();
+        renderPagination();
+    } catch (error) {
+        postsContainer.innerHTML = `<p>Ошибка: ${error.message}</p>`;
     }
 }
 
-let currentType = 'Пепперони';
-let currentSize = 'маленькая';
-let currentToppings = new Set();
+function renderPosts() {
+    postsContainer.innerHTML = '';
 
-function updateCartButton() {
-    const pizza = new Pizza(currentType, currentSize);
-    currentToppings.forEach(topping => pizza.addTopping(topping));
-    document.getElementById('total-price').textContent = pizza.calculatePrice();
-    document.getElementById('total-calories').textContent = pizza.calculateCalories();
+    const start = (currentPage - 1) * POSTS_PER_PAGE;
+    const end = start + POSTS_PER_PAGE;
+    const currentPosts = posts.slice(start, end);
+
+    currentPosts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.className = 'post';
+        postElement.innerHTML = `
+            <h3>${post.title}</h3>
+            <p>${post.body}</p>
+            <a href="post.html?id=${post.id}">Читать далее</a>
+        `;
+        postsContainer.appendChild(postElement);
+    });
 }
 
-document.querySelectorAll('.pizza-card').forEach(card => {
-    card.addEventListener('click', () => {
-        document.querySelectorAll('.pizza-card').forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-        currentType = card.dataset.type;
-        updateCartButton();
-    });
-});
+function renderPagination() {
+    paginationContainer.innerHTML = '';
 
-document.querySelectorAll('.size-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-        document.querySelectorAll('.size-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
+    const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
 
-        currentSize = tab.dataset.size;
-        updateCartButton();
-    });
-});
-
-document.querySelectorAll('.topping-card').forEach(card => {
-    card.addEventListener('click', () => {
-        const toppingName = card.dataset.topping;
-        if (currentToppings.has(toppingName)) {
-            currentToppings.delete(toppingName);
-            card.classList.remove('active');
-        } else {
-            currentToppings.add(toppingName);
-            card.classList.add('active');
+    for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.textContent = i;
+        button.className = 'pagination';
+        if (i === currentPage) {
+            button.disabled = true;
         }
+        button.addEventListener('click', () => {
+            currentPage = i;
+            renderPosts();
+            renderPagination();
+        });
+        paginationContainer.appendChild(button);
+    }
+}
 
-        updateCartButton();
-    });
-});
-
-updateCartButton();
+fetchPosts();
