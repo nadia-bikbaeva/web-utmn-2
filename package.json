@@ -1,0 +1,25 @@
+{
+  "name": "lesson12",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite src --host",
+    "build": "vite build src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nadia-bikbaeva/web-utmn-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/nadia-bikbaeva/web-utmn-2/issues"
+  },
+  "homepage": "https://github.com/nadia-bikbaeva/web-utmn-2#readme",
+  "devDependencies": {
+    "vite": "^8.0.14"
+  }
+}
