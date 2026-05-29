@@ -40,6 +40,8 @@ function getTimeWithWords() {
 
 <main>
     <p>Страничка охраняется Кошачьей армией!</p>
+    <?php echo getTimeWithWords(); ?>
+    <p><?php echo $currentYear; ?> Год</p>
 
 </main>
 
